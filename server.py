@@ -1,6 +1,8 @@
 import socket
 import threading
 
+#to work it through internet you have put your public ip is in SERVER
+
 HEADER = 64
 PORT = 5050
 SERVER = socket.gethostbyname(socket.gethostname())
@@ -33,6 +35,7 @@ def handle_client(conn, addr):
             if msg == DISCONNECT_MESSAGE:
                 connected = False
             print(f"[{addr}] {msg}")
+            conn.send("Msg recieved".encode(FORMAT))
 
     conn.close()
 

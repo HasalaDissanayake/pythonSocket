@@ -1,4 +1,7 @@
+#to run this in another pc, download client code code and run it in it. If both are in the same network this will work
 import socket
+#to send objects rather than strings
+import pickle
 
 HEADER = 64
 PORT = 5050
@@ -20,6 +23,7 @@ def send(msg):
     send_length += b' ' * (HEADER - len(send_length))
     client.send(send_length)
     client.send(message)
+    print(client.recv(2048).decode(FORMAT))
 
 send("HEllow World")
 #can hold untill the keypress
