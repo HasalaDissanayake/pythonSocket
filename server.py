@@ -25,13 +25,14 @@ def handle_client(conn, addr):
         #how many bytes we are going to take is inside recv() 
         #to specify that we need a header (always so it should be 64 bytes)
         msg_length = conn.recv(HEADER).decode(FORMAT)
-        #convert it to int
-        msg_length= int(msg_length)
-        #put that here as how many byte recieved
-        msg = conn.recv(msg_length).decode(FORMAT)
-        if msg == DISCONNECT_MESSAGE:
-            connected = False
-        print(f"[{addr}] {msg}")
+        if msg_length:
+            #convert it to int
+            msg_length= int(msg_length)
+            #put that here as how many byte recieved
+            msg = conn.recv(msg_length).decode(FORMAT)
+            if msg == DISCONNECT_MESSAGE:
+                connected = False
+            print(f"[{addr}] {msg}")
 
     conn.close()
 
@@ -40,6 +41,7 @@ def handle_client(conn, addr):
 #allow connections and handling them
 def start():
     server.listen()
+    print(f"[LISTENING] Server is listening on {SERVER}")
     while True:
         #when new con occured addrress will store in the addr
         conn, addr = server.accept()
@@ -47,7 +49,7 @@ def start():
         thread.start()
         #substract 1 because always a thread is running the starting thread
         #number of threads equal number of connections
-        print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
+        print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
 
 
 print("[STARTING] server is starting...")
