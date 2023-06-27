@@ -29,7 +29,11 @@ def handle_client(conn, addr):
         msg_length= int(msg_length)
         #put that here as how many byte recieved
         msg = conn.recv(msg_length).decode(FORMAT)
+        if msg == DISCONNECT_MESSAGE:
+            connected = False
         print(f"[{addr}] {msg}")
+
+    conn.close()
 
 
 #start the socket server
